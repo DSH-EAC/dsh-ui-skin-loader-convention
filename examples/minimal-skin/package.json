@@ -1,0 +1,21 @@
+{
+  "name": "example-minimal-skin",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./client": "./client.ts"
+  },
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "inject": ["uiSkinLoader"]
+    },
+    "skin": {
+      "apiVersion": "dsh.ecosystem.ui-skin-loader/v1",
+      "id": "example.minimal",
+      "name": "最小皮肤",
+      "version": "0.1.0"
+    }
+  }
+}
