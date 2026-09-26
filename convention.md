@@ -146,22 +146,27 @@ active → discovered（被换走或被停用；彻底关闭后回到此态）
 
 ## 9 最小示例与自检表
 
-最小皮肤（伪码，标准 DSH 插件 client 半）：
+最小皮肤（伪码，标准 DSH 插件 client 半；API 形态经参考实现实机核对——client bundle 顶层 `exports.inject` 声明 cordis 服务注入、`exports.apply(ctx)` 内经加载器服务对象登记，见参考实现仓库 README 与内置皮肤源码）：
 
 ```ts
 // package.json: { "dsh": { "skin": { "apiVersion": "dsh.ecosystem.ui-skin-loader/v1",
 //   "id": "example.minimal", "name": "最小皮肤", "version": "0.1.0" }, "client": {...} } }
-export default (ctx) => {
-  const loader = ctx.inject(["uiSkinLoader"]);
-  ctx.effect(() => {
-    const off = loader.registerSkin({
-      id: "example.minimal",
-      activate: () => { /* 自此才产生副作用；全部经 ctx.effect 登记 */ },
-      deactivate: () => { /* 撤销一切；退出后不可观测 */ },
-    });
-    return off; // fiber dispose 时自动反登记
+
+// client bundle 顶层：cordis 服务注入（vendored Loader 等这些服务就绪才调 apply）
+export const inject = ["uiSkinLoader"]; // 还需要 slots/theme/locale 等服务时自行追加
+
+export function apply(ctx) {
+  // 登记 ≠ 激活：registerSkin 只入发现表，零副作用（R1/R6）
+  const unregister = ctx.uiSkinLoader.registerSkin({
+    apiVersion: "dsh.ecosystem.ui-skin-loader/v1",
+    id: "example.minimal",
+    name: "最小皮肤",
+    version: "0.1.0",
+    activate(skinCtx) { /* 自此才产生副作用；全部经 ctx.effect 登记 */ },
+    deactivate() { /* 撤销一切；退出后不可观测 */ },
   });
-};
+  ctx.effect(() => unregister); // fiber dispose 时自动反登记
+}
 ```
 
 发布前自检（每题必须答"是"）：

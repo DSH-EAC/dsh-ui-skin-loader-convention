@@ -1,6 +1,6 @@
 # example.minimal —— 最小皮肤参考骨架
 
-这是公约 §9 伪码落成的**文档性质参考骨架**，用来说明"一个遵循公约的皮肤至少长什么样"，不要求能装进 DSH 实机运行。可运行的完整示例（极光之夜、水墨青烟等内置皮肤）见参考实现仓库 [`DSH-EAC/dsh-ui-skin-loader`](https://github.com/DSH-EAC/dsh-ui-skin-loader)。三个文件各司其职：`package.json` 展示公约 §3 的唯一强制声明 `dsh.skin` 与标准 DSH 插件 client 半声明形态；`client.ts` 展示"登记元数据 + activate/deactivate 空实现"的最小骨架，注释逐条标明对应红线。
+这是公约 §9 伪码落成的**文档性质参考骨架**，用来说明"一个遵循公约的皮肤至少长什么样"，不要求能装进 DSH 实机运行。可运行的完整示例（极光之夜、水墨青烟等内置皮肤）见参考实现仓库 [`DSH-EAC/dsh-ui-skin-loader`](https://github.com/DSH-EAC/dsh-ui-skin-loader)。三个文件各司其职：`package.json` 展示公约 §3 的唯一强制声明 `dsh.skin` 与标准 DSH 插件 client 半声明形态（注意 `dsh.client.inject` 若声明，是**包名依赖**——informational，不承担 cordis 服务注入职责，故本骨架不声明它）；`client.ts` 展示"顶层 `exports.inject` 服务注入 + `apply(ctx)` 内登记元数据 + activate/deactivate 空实现"的最小骨架（API 形态经参考实现实机核对），注释逐条标明对应红线。
 
 ## 发布前自检（公约 §9，每题必须答"是"，逐条引用）
 

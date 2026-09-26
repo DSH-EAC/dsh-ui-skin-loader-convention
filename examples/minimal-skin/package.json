@@ -8,8 +8,7 @@
   },
   "dsh": {
     "client": {
-      "platform": "web",
-      "inject": ["uiSkinLoader"]
+      "platform": "web"
     },
     "skin": {
       "apiVersion": "dsh.ecosystem.ui-skin-loader/v1",
